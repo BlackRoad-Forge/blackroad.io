@@ -156,6 +156,8 @@
       .term-input-row input { font-size: 0.72rem; }
     }
   </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
 </head>
 <body>
 
@@ -653,5 +655,6 @@
   boot();
 })();
 </script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>

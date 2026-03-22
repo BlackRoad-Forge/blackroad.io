@@ -264,6 +264,8 @@
       .sidebar { display: none; }
     }
   </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
 </head>
 <body>
 
@@ -595,5 +597,6 @@
     fetchStats();
     setInterval(fetchStats, 15000);
   </script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>

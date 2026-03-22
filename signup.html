@@ -126,6 +126,8 @@
     text-underline-offset: 2px;
   }
 </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
 </head>
 <body>
 
@@ -220,5 +222,6 @@ form.addEventListener('submit', (e) => {
   }
 });
 </script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>

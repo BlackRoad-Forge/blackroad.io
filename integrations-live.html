@@ -234,6 +234,8 @@
       opacity: 0.7;
     }
   </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
 </head>
 <body>
   <div id="blackroad-nav"></div>
@@ -598,5 +600,6 @@
       alert(`Image generation coming soon!\n\nYour prompt: "${prompt}"\n\nWill integrate with DALL-E API or Stable Diffusion`);
     }
   </script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>

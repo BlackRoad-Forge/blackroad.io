@@ -17,6 +17,8 @@
     .payment-banner a { display: inline-block; padding: 16px 32px; background: var(--gradient); color: white; text-decoration: none; border-radius: 12px; font-weight: 700; margin: 8px; }
     .crypto-address { font-family: monospace; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; margin-top: 16px; font-size: 14px; word-break: break-all; }
   </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
 </head>
 <body>
   <div class="navbar"><h1>BlackRoad Agents</h1></div>
@@ -31,5 +33,6 @@
       <div class="crypto-address"><strong>BTC:</strong> 3NJYuq8KA1xBea6JNg32XgDwjpvLkrR5VH</div>
     </div>
   </div>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>

@@ -98,6 +98,8 @@
     flex-shrink: 0;
   }
 </style>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
 </head>
 <body>
 
@@ -168,5 +170,6 @@ document.getElementById('plan-name').textContent = plan.name;
 document.getElementById('plan-price').innerHTML = plan.price + '<span class="period">' + plan.period + '</span>';
 document.getElementById('checkout-link').href = 'https://roadpay.amundsonalexa.workers.dev/checkout?plan=' + encodeURIComponent(planKey);
 </script>
+<script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>
