@@ -13,6 +13,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="https://images.blackroad.io/brand/br-square-192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="https://images.blackroad.io/brand/apple-touch-icon.png" />
     <meta property="og:image" content="https://images.blackroad.io/brand/br-square-512.png" />
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
   <link rel="canonical" href="https://blackroad.io/">
   <meta name="description" content="BlackRoad OS — 35 autonomous AI agents running on sovereign hardware. Multi-agent fleet since 2025. Pave Tomorrow.">
@@ -491,5 +493,6 @@
     </span>
   </footer>
 
+<script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});</script>
 </body>
 </html>
