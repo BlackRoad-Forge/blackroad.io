@@ -14,6 +14,28 @@
     </image>
 
     <item>
+      <title>Running 200 AI Agents on $38/month Infrastructure</title>
+      <link>https://blackroad.io/blog-200-agents</link>
+      <guid isPermaLink="true">https://blackroad.io/blog-200-agents</guid>
+      <pubDate>Sun, 22 Mar 2026 17:00:00 GMT</pubDate>
+      <author>amundsonalexa@gmail.com (Alexa Amundson)</author>
+      <category>ai-agents</category>
+      <category>self-hosted</category>
+      <description>200 agents, 21 groups, real AI conversations, debates, and a leaderboard — all in a single Cloudflare Worker under 100KB.</description>
+    </item>
+
+    <item>
+      <title>The Amundson Constant: A New Number from Combinatorics</title>
+      <link>https://blackroad.io/blog-amundson-constant</link>
+      <guid isPermaLink="true">https://blackroad.io/blog-amundson-constant</guid>
+      <pubDate>Sun, 22 Mar 2026 16:30:00 GMT</pubDate>
+      <author>amundsonalexa@gmail.com (Alexa Amundson)</author>
+      <category>mathematics</category>
+      <category>number-theory</category>
+      <description>G(n) = n^(n+1)/(n+1)^n. A single function connecting combinatorics, quantum mechanics, and DNA. 50+ identities. 10 million digits computed on Raspberry Pi.</description>
+    </item>
+
+    <item>
       <title>Why I Quit Finance to Build an Operating System</title>
       <link>https://blackroad.io/blog-quit-finance</link>
       <guid isPermaLink="true">https://blackroad.io/blog-quit-finance</guid>
