@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How I Built a Search Engine on 5 Raspberry Pis — BlackRoad OS Blog</title>
+  <meta name="description" content="I built a full-text search engine indexing 2,000+ pages with AI-powered answers, running on 5 Raspberry Pis for $38/month total infrastructure cost.">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How I Built a Search Engine on 5 Raspberry Pis">
+  <meta property="og:description" content="2,000+ pages indexed, AI answers, $38/month infrastructure. Here's how.">
+  <meta property="og:url" content="https://blackroad.io/blog-search-engine.html">
+  <meta property="article:published_time" content="2026-03-22T00:00:00Z">
+  <meta property="article:author" content="Alexa Amundson">
+  <meta property="article:tag" content="search engine">
+  <meta property="article:tag" content="raspberry pi">
+  <meta property="article:tag" content="self-hosted">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How I Built a Search Engine on 5 Raspberry Pis">
+  <link rel="canonical" href="https://blackroad.io/blog-search-engine">
+  <link rel="stylesheet" href="/_shared/design.css">
+  <style>
+    .blog-container { max-width: 720px; margin: 0 auto; padding: 0 var(--sp-lg); }
+    .article-header { padding-top: var(--sp-2xl); padding-bottom: var(--sp-xl); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-xl); }
+    .article-meta { display: flex; gap: var(--sp-md); font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); margin-bottom: var(--sp-md); }
+    .article-title { font-family: var(--font-headline); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.2; margin-bottom: var(--sp-md); }
+    .article-subtitle { font-size: 1.1rem; color: var(--subtle); line-height: 1.7; }
+    .article-body { font-family: var(--font-body); font-size: 1rem; line-height: 1.85; color: var(--secondary); }
+    .article-body h2 { font-family: var(--font-headline); font-size: 1.4rem; font-weight: 700; margin: var(--sp-2xl) 0 var(--sp-md); color: var(--white); }
+    .article-body h3 { font-family: var(--font-headline); font-size: 1.1rem; font-weight: 600; margin: var(--sp-xl) 0 var(--sp-sm); color: var(--white); }
+    .article-body p { margin-bottom: var(--sp-lg); }
+    .article-body code { font-family: var(--font-mono); font-size: 0.875rem; background: var(--surface); padding: 2px 6px; border-radius: 4px; }
+    .article-body pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: var(--sp-lg); overflow-x: auto; margin: var(--sp-lg) 0; }
+    .article-body pre code { background: none; padding: 0; font-size: 0.82rem; line-height: 1.6; }
+    .article-body a { color: #7ab8ff; text-decoration: underline; text-underline-offset: 3px; }
+    .article-body ul, .article-body ol { margin: var(--sp-md) 0 var(--sp-lg) var(--sp-lg); }
+    .article-body li { margin-bottom: var(--sp-sm); }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: var(--sp-md); margin: var(--sp-lg) 0; }
+    .stat-box { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: var(--sp-lg); text-align: center; }
+    .stat-num { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--white); }
+    .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+    .cta-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: var(--sp-xl); text-align: center; margin: var(--sp-2xl) 0; }
+    .cta-box a { display: inline-block; background: var(--grad); color: var(--white); padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; margin-top: var(--sp-md); }
+    .back-link { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); text-decoration: none; padding: var(--sp-lg) 0; display: block; }
+  </style>
+</head>
+<body>
+
+<div class="blog-container">
+  <a href="/blog" class="back-link">← Back to blog</a>
+
+  <div class="article-header">
+    <div class="article-meta">
+      <span>March 22, 2026</span>
+      <span>·</span>
+      <span>Alexa Amundson</span>
+      <span>·</span>
+      <span>8 min read</span>
+    </div>
+    <h1 class="article-title">How I Built a Search Engine on 5 Raspberry Pis</h1>
+    <p class="article-subtitle">2,000+ pages indexed with AI-powered answers, running on sovereign hardware for $38/month total infrastructure cost. No cloud dependencies. No vendor lock-in.</p>
+  </div>
+
+  <div class="article-body">
+
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-num">2,027</div><div class="stat-label">Pages Indexed</div></div>
+      <div class="stat-box"><div class="stat-num">500ms</div><div class="stat-label">Avg Query Time</div></div>
+      <div class="stat-box"><div class="stat-num">$38</div><div class="stat-label">Monthly Cost</div></div>
+      <div class="stat-box"><div class="stat-num">0</div><div class="stat-label">Cloud Dependencies</div></div>
+    </div>
+
+    <h2>The Problem</h2>
+    <p>I run BlackRoad OS — a one-person company with 18 domains, 273 repositories, 200 AI agents, and a 5-node Raspberry Pi cluster. I needed a way to search across all of it. Not just file names — I wanted full-text search with AI-powered summaries.</p>
+    <p>Every hosted search service I looked at was either too expensive, too limited, or required sending my data to someone else's servers. I wanted something that runs on my hardware, indexes my content, and answers questions about my own ecosystem.</p>
+
+    <h2>The Architecture</h2>
+    <p>The search engine is a single Cloudflare Worker backed by a D1 database (SQLite at the edge). Here's how it works:</p>
+    <ul>
+      <li><strong>Indexer:</strong> A cron job crawls all 18 domains, 273 GitHub repos, and 200 RoundTrip agents. Each page gets its title, description, full text, domain, category, and tags stored in D1.</li>
+      <li><strong>FTS5:</strong> SQLite's full-text search extension handles queries. It's surprisingly fast — 500ms average including network round-trip from anywhere in the world.</li>
+      <li><strong>AI Answers:</strong> For every query, the search engine also generates a one-paragraph AI summary using Ollama running on the Pi cluster. If Ollama is slow, it falls back to Cloudflare Workers AI.</li>
+      <li><strong>Categories:</strong> Results are tagged into categories (repo, agent, site, docs, product, infra, app, tech) so you can filter.</li>
+    </ul>
+
+    <h2>The Hardware</h2>
+    <p>The "5 Raspberry Pis" part is real, but the search engine itself runs as a Cloudflare Worker. The Pis handle everything else:</p>
+    <ul>
+      <li><strong>Alice</strong> (Pi 4, 8GB) — Gateway, Pi-hole DNS, PostgreSQL, Redis, Qdrant vector DB</li>
+      <li><strong>Cecilia</strong> (Pi 5, 8GB + Hailo-8) — Primary Ollama inference, MinIO object storage</li>
+      <li><strong>Octavia</strong> (Pi 5, 8GB + Hailo-8) — Gitea (239 repos), Docker, NATS messaging</li>
+      <li><strong>Aria</strong> (Pi 4, 4GB) — Backup and monitoring</li>
+      <li><strong>Lucidia</strong> (Pi 4, 8GB) — 334 web apps via nginx, PowerDNS, GitHub Actions runners</li>
+    </ul>
+    <p>Plus two small DigitalOcean droplets for TLS termination (Caddy) and edge routing. Total cost: $38/month.</p>
+
+    <h2>What's Indexed</h2>
+    <p>The search engine currently indexes:</p>
+    <ul>
+      <li><strong>1,764 GitHub repositories</strong> across 16 organizations</li>
+      <li><strong>200+ AI agents</strong> from the RoundTrip coordination system</li>
+      <li><strong>35 pages</strong> on blackroad.io</li>
+      <li><strong>18 domain homepages</strong> with full content</li>
+      <li><strong>Docs, products, infrastructure</strong> pages</li>
+    </ul>
+
+    <h2>The AI Answer Box</h2>
+    <p>The most interesting feature is the AI answer box. When you search for something, the engine doesn't just return links — it generates a brief, grounded answer based on the actual indexed content.</p>
+    <p>The AI pipeline: query → FTS5 results → top 5 snippets → prompt to Ollama (llama3.2:1b on Cecilia) → one-paragraph answer. If Ollama is cold or slow, it falls back to Workers AI (llama-3.1-8b). The answer always cites actual URLs from the index — no hallucination.</p>
+
+    <h2>What I Learned</h2>
+    <ul>
+      <li><strong>SQLite FTS5 is underrated.</strong> It handles 2,000+ documents with sub-second queries. No Elasticsearch needed.</li>
+      <li><strong>D1 is perfect for this.</strong> Cloudflare's edge SQLite means the search index is replicated globally. Queries from Tokyo are as fast as queries from New York.</li>
+      <li><strong>AI answers need grounding.</strong> The answer box only works because it's fed real snippets from real results. Without grounding, it would hallucinate.</li>
+      <li><strong>$38/month is enough.</strong> You don't need AWS. Five Pis, two small VPS nodes, and Cloudflare's free tier gets you surprisingly far.</li>
+    </ul>
+
+    <h2>Try It</h2>
+    <p>The search engine is live and free to use — no signup needed.</p>
+
+    <div class="cta-box">
+      <p>Search across 2,000+ pages with AI-powered answers.</p>
+      <a href="https://search.blackroad.io">Try RoadSearch →</a>
+    </div>
+
+    <p>BlackRoad OS is a one-person company building sovereign infrastructure. Everything runs on hardware I own. The only external dependencies are Stripe (for payments) and GoDaddy (domain registrar). Everything else — git hosting, object storage, DNS, AI inference, search, chat — is self-hosted.</p>
+
+    <p>If you're interested in self-hosting or sovereign infrastructure, check out the <a href="https://blackroad.io/demo">demo page</a> or the <a href="https://github.com/BlackRoad-OS-Inc">GitHub organization</a>.</p>
+
+    <p><em>— Alexa Amundson, Founder & CEO, BlackRoad OS, Inc.</em></p>
+
+  </div>
+</div>
+
+</body>
+</html>
