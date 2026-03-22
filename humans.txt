@@ -1,0 +1,19 @@
+/* TEAM */
+Founder: Alexa Louise Amundson
+Role: CEO, Engineer
+Location: Lakeville, MN
+Contact: amundsonalexa@gmail.com
+Site: https://blackroad.io
+
+/* THANKS */
+Claude (Anthropic) — AI pair programming
+Raspberry Pi Foundation — hardware platform
+Let's Encrypt — free TLS certificates
+
+/* SITE */
+Last update: 2026-03-22
+Language: English
+Standards: HTML5, CSS3, ES2020
+Components: Caddy, Ollama, Gitea, NATS, MinIO, WireGuard, PowerDNS
+Infrastructure: 5 Raspberry Pi 5s + 2 DigitalOcean droplets
+Cost: $38/month

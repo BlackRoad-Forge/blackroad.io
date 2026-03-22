@@ -249,6 +249,44 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Priority 0.8 — High-value content pages (added 2026-03-22) -->
+  <url>
+    <loc>https://blackroad.io/demo</loc>
+    <lastmod>2026-03-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://blackroad.io/compare</loc>
+    <lastmod>2026-03-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blackroad.io/blog-quit-finance</loc>
+    <lastmod>2026-03-22</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blackroad.io/blog-sovereign-os-150</loc>
+    <lastmod>2026-03-22</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://blackroad.io/feed.xml</loc>
+    <lastmod>2026-03-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blackroad.io/changelog.xml</loc>
+    <lastmod>2026-03-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+
   <!-- Priority 0.5 — Legal & error pages -->
   <url>
     <loc>https://blackroad.io/terms</loc>
@@ -270,3 +308,4 @@
   </url>
 
 </urlset>
+  <!-- Added 2026-03-22 -->
