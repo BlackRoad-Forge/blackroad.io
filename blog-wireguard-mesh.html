@@ -1,48 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>How I Built a WireGuard Mesh Across 7 Nodes for $6/month — BlackRoad OS</title>
-<meta name="description" content="5 Raspberry Pis behind NAT + 2 cloud nodes. WireGuard hub-and-spoke mesh with full SSH access to every node from anywhere. Total VPN cost: one $6 droplet.">
-<meta name="author" content="Alexa Amundson">
-<meta property="og:type" content="article">
-<meta property="og:title" content="How I Built a WireGuard Mesh Across 7 Nodes for $6/month">
-<meta property="og:description" content="Hub-and-spoke WireGuard connecting 5 Pis behind NAT to 2 cloud servers. Full SSH from anywhere.">
-<meta property="og:url" content="https://blackroad.io/blog-wireguard-mesh">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://images.blackroad.io/brand/br-square-512.png">
-<meta property="og:image" content="https://images.blackroad.io/brand/br-square-512.png">
-<link rel="canonical" href="https://blackroad.io/blog-wireguard-mesh">
-<link rel="icon" type="image/png" sizes="32x32" href="https://images.blackroad.io/brand/br-square-32.png">
-<link rel="stylesheet" href="/_shared/design.css">
-<link rel="alternate" type="application/rss+xml" title="BlackRoad OS Blog" href="/feed.xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://blackroad.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://blackroad.io/blog"},{"@type":"ListItem","position":3,"name":"WireGuard Mesh","item":"https://blackroad.io/blog-wireguard-mesh"}]}
-</script>
-<style>
-  .blog-container { max-width: 720px; margin: 0 auto; padding: 0 var(--sp-lg); }
-  .article-header { padding-top: var(--sp-2xl); padding-bottom: var(--sp-xl); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-xl); }
-  .article-meta { display: flex; align-items: center; gap: var(--sp-md); font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); margin-bottom: var(--sp-lg); flex-wrap: wrap; }
-  .article-meta .divider { width: 3px; height: 3px; border-radius: 50%; background: var(--dim); }
-  .article-title { font-family: var(--font-headline); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: var(--sp-lg); color: var(--white); }
-  .article-subtitle { font-size: 1.15rem; color: var(--tertiary); line-height: 1.6; max-width: 600px; }
-  .article-body { padding-bottom: var(--sp-2xl); }
-  .article-body p { font-size: 1.05rem; line-height: 1.7; color: var(--secondary); margin-bottom: var(--sp-lg); }
-  .article-body h2 { font-family: var(--font-headline); font-size: 1.5rem; font-weight: 700; color: var(--white); margin-top: var(--sp-2xl); margin-bottom: var(--sp-md); }
-  .article-body strong { color: var(--white); font-weight: 600; }
-  .article-body code { font-family: var(--font-mono); font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); padding: 2px 6px; border-radius: 4px; color: var(--tertiary); }
-  .article-body a { color: #4488FF; text-decoration: underline; text-underline-offset: 3px; }
-  .article-body a:hover { color: var(--white); }
-  .article-body ul { list-style: none; padding: 0; margin-bottom: var(--sp-lg); }
-  .article-body ul li { position: relative; padding-left: var(--sp-lg); margin-bottom: var(--sp-sm); font-size: 1.05rem; color: var(--secondary); line-height: 1.6; }
-  .article-body ul li::before { content: ''; position: absolute; left: 0; top: 10px; width: 4px; height: 4px; border-radius: 50%; background: var(--muted); }
-  .code-block { background: #0d0d0d; border: 1px solid var(--border); border-radius: 10px; padding: var(--sp-lg); font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.8; overflow-x: auto; color: var(--tertiary); margin: var(--sp-lg) 0; }
-  .cta-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: var(--sp-xl); text-align: center; margin-top: var(--sp-2xl); }
-  .cta-box p { color: var(--subtle); font-size: 0.9rem; margin-bottom: var(--sp-md); }
-  .cta-box a.btn { display: inline-block; background: var(--grad); color: var(--white); padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How I Built a WireGuard Mesh Across 7 Nodes for $6/month — BlackRoad OS</title>
+  <meta name="description" content="Hub-and-spoke WireGuard connecting 5 Raspberry Pis behind NAT to 2 cloud servers. 12 tunnels, full encryption, zero monthly cost for the VPN itself.">
+  <meta name="author" content="Alexa Amundson">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="WireGuard Mesh Across 7 Nodes for $6/month">
+  <meta property="og:description" content="5 Pis behind NAT + 2 cloud servers. 12 WireGuard tunnels. Full encryption. Here's how.">
+  <meta property="og:url" content="https://blackroad.io/blog-wireguard-mesh">
+  <meta property="article:published_time" content="2026-03-22T00:00:00Z">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://images.blackroad.io/brand/br-square-512.png">
+  <meta property="og:image" content="https://images.blackroad.io/brand/br-square-512.png">
+  <link rel="canonical" href="https://blackroad.io/blog-wireguard-mesh">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://images.blackroad.io/brand/br-square-32.png">
+  <link rel="stylesheet" href="/_shared/design.css">
+  <link rel="alternate" type="application/rss+xml" title="BlackRoad OS Blog" href="/feed.xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://blackroad.io/"},{"@type":"ListItem","position":2,"name":"Blog","item":"https://blackroad.io/blog"},{"@type":"ListItem","position":3,"name":"WireGuard Mesh","item":"https://blackroad.io/blog-wireguard-mesh"}]}
+  </script>
+  <style>
+    .blog-container { max-width: 720px; margin: 0 auto; padding: 0 var(--sp-lg); }
+    .article-header { padding-top: var(--sp-2xl); padding-bottom: var(--sp-xl); border-bottom: 1px solid var(--border); margin-bottom: var(--sp-xl); }
+    .article-meta { display: flex; align-items: center; gap: var(--sp-md); font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); margin-bottom: var(--sp-lg); flex-wrap: wrap; }
+    .article-meta .divider { width: 3px; height: 3px; border-radius: 50%; background: var(--dim); }
+    .article-title { font-family: var(--font-headline); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: var(--sp-lg); color: var(--white); }
+    .article-subtitle { font-size: 1.15rem; color: var(--tertiary); line-height: 1.6; max-width: 600px; }
+    .article-body { padding-bottom: var(--sp-2xl); }
+    .article-body p { font-size: 1.05rem; line-height: 1.7; color: var(--secondary); margin-bottom: var(--sp-lg); }
+    .article-body h2 { font-family: var(--font-headline); font-size: 1.5rem; font-weight: 700; color: var(--white); margin-top: var(--sp-2xl); margin-bottom: var(--sp-md); }
+    .article-body strong { color: var(--white); font-weight: 600; }
+    .article-body a { color: #4488FF; text-decoration: underline; text-underline-offset: 3px; }
+    .article-body a:hover { color: var(--white); }
+    .article-body blockquote { border-left: 2px solid var(--dim); padding-left: var(--sp-lg); margin: var(--sp-xl) 0; color: var(--subtle); font-style: italic; font-size: 1.1rem; line-height: 1.7; }
+    .cta-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: var(--sp-xl); text-align: center; margin-top: var(--sp-2xl); }
+    .cta-box p { color: var(--subtle); font-size: 0.9rem; margin-bottom: var(--sp-md); }
+    .cta-box a.btn { display: inline-block; background: var(--grad); color: var(--white); padding: 12px 24px; border-radius: 8px; font-weight: 700; text-decoration: none; }
+  </style>
 </head>
 <body>
 <nav class="br-nav">
@@ -58,105 +55,74 @@
     <div class="article-meta">
       <span>Alexa Amundson</span><div class="divider"></div>
       <span>March 22, 2026</span><div class="divider"></div>
-      <span>6 min read</span>
+      <span>5 min read</span>
     </div>
     <h1 class="article-title">How I Built a WireGuard Mesh Across 7 Nodes for $6/month</h1>
-    <p class="article-subtitle">5 Raspberry Pis behind residential NAT, 2 cloud servers with public IPs, all connected via WireGuard. Full SSH from anywhere. Total VPN cost: one $6/month DigitalOcean droplet.</p>
+    <p class="article-subtitle">Hub-and-spoke WireGuard connecting 5 Raspberry Pis behind NAT to 2 cloud servers. 12 tunnels, full end-to-end encryption, zero monthly cost for the VPN itself.</p>
   </div>
   <div class="article-body">
 
-    <h2>The Problem</h2>
+    <h2>The problem</h2>
 
-    <p>I have 5 Raspberry Pis at home behind a consumer router with no static IP and no port forwarding. I also have 2 DigitalOcean droplets. I need all 7 nodes to talk to each other securely, and I need to SSH into any Pi from anywhere.</p>
+    <p>Five Raspberry Pis sit behind a residential NAT with a dynamic IP. Two DigitalOcean droplets have static public IPs in NYC. Every node needs to talk to every other node securely. SSH, database replication, AI inference requests, NATS pub/sub messages, DNS zone transfers — all of it encrypted, all of it routable.</p>
 
-    <p>Tailscale solves this but costs money at scale and adds a dependency. I want to own the VPN too.</p>
+    <p>The standard answer is Tailscale or Zerotier. Both are good. Both cost money per seat. Both add a dependency on someone else's coordination server. I wanted something I own completely.</p>
 
-    <h2>The Architecture</h2>
+    <h2>The topology</h2>
 
-    <p><strong>Hub-and-spoke with full mesh routing.</strong> Anastasia (DO droplet, $6/month) is the WireGuard hub. Every Pi connects outbound to Anastasia on port 51820. Since the Pis initiate the connection, NAT traversal works automatically.</p>
+    <p>WireGuard runs as a kernel module on every node. The topology is hub-and-spoke with Gematria (the NYC3 droplet) as the hub. Every Pi connects to Gematria through a persistent WireGuard tunnel that punches through NAT. The Pis also have peer-to-peer tunnels to each other for LAN traffic.</p>
 
-    <div class="code-block">Internet
-  |
-Anastasia (174.138.44.45:51820) ── WireGuard Hub
-  |         |         |        |        |        |
-Alice    Cecilia   Octavia   Aria   Lucidia   Gematria
-10.8.0.6  10.8.0.3  10.8.0.4  10.8.0.7  10.8.0.5  10.8.0.8
-(.49)     (.96)     (.101)    (.98)     (.38)     (DO nyc3)</div>
+    <p>The result: 12 bidirectional tunnels forming a full mesh. Any node can reach any other node by IP address, whether they're on the same LAN, in a data center, or on opposite sides of a NAT.</p>
 
-    <p>Every node gets a <code>10.8.0.x</code> address on the WireGuard interface. The hub routes packets between all peers. From my laptop (also a WireGuard peer), I can SSH to any Pi by its WireGuard IP.</p>
+    <p><strong>Alice</strong> (Pi 4, gateway) — 10.0.0.1<br>
+    <strong>Cecilia</strong> (Pi 5, AI) — 10.0.0.2<br>
+    <strong>Octavia</strong> (Pi 5, DevOps) — 10.0.0.3<br>
+    <strong>Lucidia</strong> (Pi 4, web) — 10.0.0.4<br>
+    <strong>Aria</strong> (Pi 4, backup) — 10.0.0.5<br>
+    <strong>Gematria</strong> (DO NYC3, edge) — 10.0.0.10<br>
+    <strong>Anastasia</strong> (DO NYC1, DNS) — 10.0.0.11</p>
 
-    <h2>Setup</h2>
+    <h2>The setup</h2>
 
-    <p>On the hub (Anastasia):</p>
+    <p>On each node: <code>apt install wireguard</code>. Generate keys: <code>wg genkey | tee private.key | wg pubkey > public.key</code>. Write <code>/etc/wireguard/wg0.conf</code>. Enable: <code>systemctl enable --now wg-quick@wg0</code>.</p>
 
-    <div class="code-block">[Interface]
-Address = 10.8.0.1/24
-ListenPort = 51820
-PrivateKey = &lt;hub-private-key&gt;
-PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+    <p>The entire config per node is about 30 lines. It lists the node's own address, its private key, and a [Peer] section for each other node with their public key, allowed IPs, and endpoint (for public nodes) or no endpoint (for NAT'd nodes that connect outbound).</p>
 
-[Peer] # Alice
-PublicKey = &lt;alice-public-key&gt;
-AllowedIPs = 10.8.0.6/32</div>
+    <p>The Pis use <code>PersistentKeepalive = 25</code> to maintain the NAT mapping. Without it, the tunnel drops after the NAT table entry expires (usually 30-120 seconds of inactivity).</p>
 
-    <p>On each Pi:</p>
+    <h2>What flows through it</h2>
 
-    <div class="code-block">[Interface]
-Address = 10.8.0.6/24
-PrivateKey = &lt;alice-private-key&gt;
+    <p><strong>SSH:</strong> I can SSH from my Mac to any Pi by its WireGuard IP. <code>ssh blackroad@10.0.0.3</code> reaches Octavia regardless of what the residential IP is doing.</p>
 
-[Peer] # Hub
-PublicKey = &lt;hub-public-key&gt;
-Endpoint = 174.138.44.45:51820
-AllowedIPs = 10.8.0.0/24
-PersistentKeepalive = 25</div>
+    <p><strong>Gitea replication:</strong> Gitea on Octavia (10.0.0.3:3100) is accessible from all nodes. Push from any machine.</p>
 
-    <p>The <code>PersistentKeepalive = 25</code> is critical. Without it, the NAT mapping expires and the hub can't reach the Pi. With it, each Pi sends a keepalive packet every 25 seconds, keeping the NAT hole open.</p>
+    <p><strong>Ollama inference:</strong> Chat requests arrive at Gematria (public), route through WireGuard to Cecilia (10.0.0.2:11434), get inference results, and return. The user never knows they're talking to a Raspberry Pi.</p>
 
-    <h2>What It Enables</h2>
+    <p><strong>DNS:</strong> PowerDNS zone transfers between Lucidia (primary) and Gematria (secondary) happen over WireGuard. No unencrypted DNS data on the wire.</p>
 
-    <ul>
-      <li><strong>SSH from anywhere</strong> — <code>ssh blackroad@10.8.0.6</code> reaches Alice regardless of my location</li>
-      <li><strong>Service routing</strong> — Gitea on Octavia (10.8.0.4:3100), Ollama on Cecilia (10.8.0.3:11434), all reachable across the mesh</li>
-      <li><strong>TLS edge</strong> — Gematria (10.8.0.8) runs Caddy, terminates TLS for 18 domains, and forwards to Pis via WireGuard</li>
-      <li><strong>Zero port forwarding</strong> — no router config needed, no static IP needed</li>
-    </ul>
+    <p><strong>NATS:</strong> The NATS cluster on Octavia uses WireGuard IPs for all inter-node communication. Pub/sub messages between agents are encrypted in transit.</p>
 
-    <h2>The TLS Edge Pattern</h2>
+    <h2>What it cost</h2>
 
-    <p>Internet traffic hits Gematria (public IP, Caddy with Let's Encrypt). Caddy reverse-proxies to the Pis via WireGuard IPs:</p>
+    <p>WireGuard itself is free and open source. It's in the Linux kernel. There's no license, no per-seat fee, no coordination server to pay for.</p>
 
-    <div class="code-block">search.blackroad.io {
-    reverse_proxy 10.8.0.6:8094  # Alice via WireGuard
-}
+    <p>The only cost is the two DigitalOcean droplets that serve as public endpoints: Gematria at $24/month and Anastasia at $6/month. But those droplets exist for Caddy TLS and DNS — the WireGuard tunnels are a side benefit. The VPN mesh itself costs $0.</p>
 
-chat.blackroad.io {
-    reverse_proxy 10.8.0.3:11434  # Cecilia Ollama via WireGuard
-}</div>
+    <h2>What I learned</h2>
 
-    <p>From the outside, it looks like a normal HTTPS website. Internally, every request traverses an encrypted WireGuard tunnel to a Pi sitting in my living room.</p>
+    <p><strong>WireGuard is absurdly simple.</strong> The total config across all 7 nodes is under 250 lines. There's no certificate authority, no key exchange protocol, no daemon to manage. It's stateless, fast, and it just works.</p>
 
-    <h2>Cost</h2>
+    <p><strong>NAT traversal is solved.</strong> PersistentKeepalive handles everything. I haven't had a single tunnel drop in months.</p>
 
-    <ul>
-      <li><strong>Anastasia (hub)</strong>: $6/month DO droplet (1 vCPU, 1GB RAM)</li>
-      <li><strong>Gematria (TLS edge)</strong>: $12/month DO droplet (4 vCPU, 8GB RAM — also runs Ollama)</li>
-      <li><strong>WireGuard</strong>: free (kernel module on all nodes)</li>
-      <li><strong>Pis</strong>: already owned, ~40W total power</li>
-    </ul>
+    <p><strong>Full mesh is worth it.</strong> Hub-and-spoke would be simpler but every cross-Pi request would bounce through Gematria in NYC. Full mesh means Cecilia→Octavia goes direct on the LAN at gigabit speed instead of round-tripping to a data center.</p>
 
-    <p>Total VPN cost: <strong>$6/month</strong>. The $12 Gematria droplet is shared with Caddy, Ollama, and NATS — it's not a VPN cost.</p>
+    <p><strong>The kernel module matters.</strong> WireGuard runs in kernel space, not userspace. On a Pi 4, throughput is about 400 Mbps. That's more than enough for anything the fleet needs to do.</p>
 
-    <h2>Compared to Tailscale</h2>
-
-    <p>Tailscale is easier to set up. But: (1) it's a dependency I don't control, (2) the free tier limits devices, (3) I can't customize routing, and (4) I actually run Headscale (self-hosted Tailscale control plane) on Aria as a backup. The WireGuard mesh is the primary.</p>
-
-    <p>For a homelab with 7 nodes, raw WireGuard is simple enough. The config files are 15 lines each. Once set up, it just works.</p>
+    <blockquote>12 tunnels. 7 nodes. 0 monthly cost for the VPN itself. Every packet encrypted end-to-end. If you're self-hosting anything, WireGuard should be the first thing you set up.</blockquote>
 
     <div class="cta-box">
-      <p>The products running on this mesh are live. Try them.</p>
-      <a href="/demo" class="btn">Try BlackRoad OS</a>
+      <p>See the full fleet architecture.</p>
+      <a href="https://roundtrip.blackroad.io/api/fleet" class="btn">Fleet Status</a>
     </div>
 
   </div>
